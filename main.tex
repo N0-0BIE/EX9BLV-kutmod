@@ -1,0 +1,40 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+
+\title{Context-aware recommendations}
+\author{Dániel Kelemen}
+\date{October 2025}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+    Recommender systems are software, designed to be used to get suggestions by inputting some kind of data. The direct inputs usually contain some of the information needed to output reliably efficient suggestions, but there is additional sources of information for the recomennder systems to work from: the context of the input or the user. Context-aware recommender systems (CARS) are recommender systems, that use this contextual information surrounding the direct input, such as time, location, social grouping and such. The problem in this field of research is, that there is hardly any formalization on what counts as context, what is useful from the data inferred from context, and a lack of a metric to measure the success of the recommendation by. In this paper, we take a look at the recent advancements in the field, and the direction that said research is taking.
+\end{abstract}
+
+\section{Introduction}
+    CARS are a widely used category of software, with mostly business-driven research being done on the topic, due to them being used so they can provide better user experience and so an increased revenue for the platforms. According to \cite{mateos2024systematic}, they are most prevalent in the domains of e-commerce, social networks and multi-media, followed by tourism, food and books. Most such software collect the context on users while in use, and only a small fraction comes from direct and intended input by the user.
+\subsection{Common problems}
+    Information sparsity is when the options the algorithm has to choose from are too limited, and so it can make an irrelevant one.
+    \par One of the most common problems these algorithms encounter, is the so-called cold-start problem, which is when a new user tries to get a suggestion from the recommender system, but it doesn't have enough data on them to make a relevant one.
+\subsection{History}
+    Recommender systems traditionally fall into two main categories, based on the way they calculate the suggestion given to users. These categories are the Collaborative Filtering (CF) and the content based (CB) recommender systems, with a third addition of a hybrid, using a combination of both techniques. The basis of these techniques are well documented in the literature review \cite{villegas2018characterizing}.
+    \par These systems usually use user-item matrices, and compute the optimal suggestion based on them. CF makes suggestions based on what other similar users prefer, while CB looks for suggestions similar to the given user's previous choices.
+    \par CARS are an extension of these techniques, that use additional information available to them, and we call this additional information context. This inclusion transforms the user-item matrices to multi-dimensional tensors.
+\subsection{Context types}
+    In \cite{mateos2024systematic} they observe 5 main categories of context, them being individual, spatial, time, activity and relational. Space, time and activity are rather self-explanatory, while individual context is data collected on the user as a single entity, with relational being their surroundings and groups, or the relation between the user and the provider of services. Of these, the individual context was determined to be the most researched type, since it encompasses an enormous field and quantity of information, while giving important results when interpreted correctly.
+\subsection{Contextual approaches}
+    Techniques that take context into account as additional information are mainly defined in 3 categories, as reported by \cite{mateos2024systematic}.
+    \par Context pre-filtering, as described, filters the suggestion options before applying the recommender algorithm on them.
+    \par Context post-filtering merely enhances traditional recommender systems. It does not play a role in the training of the algorithm, only coming into play once a suggestion group is selected in action. At that point, the context is used to further narrow and re-rank the group to be more relevant.
+    \par Contextual modeling is by far the most widely used technique. It achieves the inclusion of context in the process, by integrating it with the user-item matrices of traditional recommender systems, and improving the algorithm with these expanded tensors via machine learning.
+\subsection{Recent advancements}
+    Nowadays, the integration of neural networks are the most popular research topics giving the most benefits to the improvement of the field. This is mostly due to these methods being better at working with sparse datasets and calculating non-linear correlations in user behavior.
+    \par In \cite{huang2024deep}, they further improve on the existing deep learning methods, and use a neural CF algorithm to calculate suggestions. The resulting algorithm excels at calculating dynamic user interests, but, by their own admission, the training time of it is a resource intensive endeavor.
+    \par Other researchers go in different directions compared to the advancement of the algorithms directly. In \cite{hong2024cross} they try to improve recommender systems in the domain of travel, by defining culture as a new type of context and further filtering and adjusting the suggestions.
+
+\bibliography{links}
+\bibliographystyle{plainnat}
+
+\end{document}
