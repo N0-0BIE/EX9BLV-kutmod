@@ -1,0 +1,107 @@
+\documentclass[acmsmall]{acmart}
+
+\AtBeginDocument{%
+  \providecommand\BibTeX{{%
+    Bib\TeX}}}
+
+
+\acmYear{2025}
+\acmJournal{JACM}
+\acmVolume{1}
+\acmNumber{1}
+\acmArticle{1}
+\acmMonth{11}
+
+\begin{document}
+
+\title{Never judge a book by its cover?}
+
+\author{Daniel Kelemen}
+\email{ex9blv@inf.elte.hu}
+\affiliation{%
+  \institution{Eötvös Lóránd University}
+  \city{Budapest}
+  \country{Hungary}
+}
+
+\begin{abstract}
+  In this research, we take a look at a large collection of books' data acquired form Kaggle \cite{kaggle}, called ``Goodreads-books''. We also build a model capable of predicting the rating the book received, based on the multiple features provided and the TF-IDF vectorization of the title. We find that it is possible to make a model with a \(R^2\) value of around 2.1 that also mostly uses the title vectors  as a base-point of predictions, with other attributes being less important in the contribution of making the prediction.
+\end{abstract}
+
+\keywords{Book, Machine learning, Predictions, Book title, Title}
+
+\maketitle
+
+\section{Introduction}
+The first thing we notice when coming across a new book is the title along with the cover, and so people tend to make first judgments based on them. Since the cover is rather difficult to analyze in this way and also usually contains the title, we stick to the analysis of only the title, focusing on how it affects a book's ratings.
+\par We first go into detail on the dataset used to conduct this research, and the culling and transformations used on the features. We then proceed with explaining the model used, and the results obtained.
+
+\section{The dataset}
+As noted before, the dataset used is called ``Goodreads-books'', and was obtained from the website Kaggle\cite{kaggle}. The dataset contains the following features, which are relevant for this research:
+\begin{itemize}
+    \item title
+    \item author
+    \item average rating
+    \item language of the book
+    \item page count
+    \item rating count
+    \item text review count
+\end{itemize}
+
+\subsection{Cleaning}
+The dataset was cleaned for the sake of finding only relevant data. Originally, before any action done, the dataset contained \(11127\) books.
+\par The first section included a filtering of books that don't have titles or ratings, or their values are not valid. Then the non-english books were filtered, followed by the ones whose title was considered too long or too short. The final filter applied was for the number of ratings given, since ones with too few could have skewed or unreliable data. This brought the available book count down to \(8198\).
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.75\linewidth]{ratings_dist.png}
+  \caption{Average ratings distribution of books}
+  \Description{A graph showing the distribution of the average rating of books after the culling of data, with the mean being 3.95}
+\end{figure}
+
+\subsection{Feature engineering}
+The transformation of the title is done using TF-IDF vectorization \cite{tfidf} to get 5000 unique values with which our model can work.
+
+\section{Model}
+The model was created using the random tree regression method \cite{randomtree}, which was trained on a randomly picked 80\% of the total data, with the predictions obtained for the remaining 20\%.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.5\linewidth]{predictions.png}
+  \caption{Model's rating performance}
+  \Description{A graph showing the predicted and actual rating of books}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.5\linewidth]{importance.png}
+  \caption{Model's feature importance}
+  \Description{A graph showing how much certain features correlate to the given prediction's value}
+\end{figure}
+
+As shown, the model uses the title attributes vectorized features to obtain about 50\% of the prediction.
+
+\subsection{Performance evaluation}
+The model's performance is acceptable, albeit leaves much to be desired. The primary aim of using mostly the title to predict the score is fulfilled, and the obtained recommendations are shown to be certainly better than using the baseline (mean) performance.
+
+\begin{table}[ht]
+  \caption{Model's performance compared to baseline}
+  \begin{tabular}{c|ccc}
+    \toprule
+    &MSE&RMSE&\(R^2\)\\
+    \midrule
+    Model&0.054&0.233&0.211\\
+    Baseline&0.068&0.262&0\\
+  \bottomrule
+\end{tabular}
+\end{table}
+
+The results show a 21\% improvement in MSE score and an 11\% improvement in RMSE score.
+
+\section{Conclusion}
+The model is rather successful in showing that a book's title indeed correlates to how well it is perceived, although not as much as one might think at first. As such it completes the aim of disproving the claim to ``Never judge a book by its cover''.
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{links}
+
+\end{document}
